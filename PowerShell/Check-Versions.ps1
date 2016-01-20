@@ -90,5 +90,5 @@ else
 Write-Host " "
 Write-Host " "
 
-
+Set-ExecutionPolicy Restricted
 

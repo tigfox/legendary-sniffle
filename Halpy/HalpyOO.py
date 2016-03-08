@@ -78,5 +78,5 @@ def getCat():
 
 if __name__ == '__main__':
 
-    server1 = ircServer("irc.etsycorp.com", "6667", "Halpy-OO")
+    server1 = ircServer("irc.freenode.org", "6667", "Halpy-OO")
     chan1 = channel(server1, "#SquirrelOps", "!halp")

@@ -8,7 +8,6 @@ import requests
 from xml.etree import ElementTree
 
 #constants
-#server = "irc.etsycorp.com"
 server = "irc.freenode.org"
 channel = "#Synculus"
 nick = "Halpy"

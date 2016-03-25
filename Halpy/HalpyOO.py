@@ -3,6 +3,7 @@
 import socket
 import sys
 import requests
+import time
 from xml.etree import ElementTree
 
 catsource = "http://thecatapi.com/api/images/get?format=xml&api_key=NjgxMjU&size=full&results_per_page=1&type=gif"
@@ -20,18 +21,25 @@ class ircServer:
         self.port = port
         self.nick = nick
         self.realname = realname
+        self.log = [ '/tmp/%s/%s'%(self.addr, self.nick) ]
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print ("connecting to: %s" % self.addr)
         self.server.connect((self.addr, self.port))
+        self.server.setblocking(False)
         self.server.send("USER %s %s %s :%s\n" % (self.nick,self.nick,self.nick, self.realname))
         self.server.send("NICK %s\n" % self.nick)
-        
+        self.log_append = []
+        for i, tail in enumerate(self.log):
+            self.log_append.append('')
+
         while 1:
             self.stream = self.server.recv(2048)
             if self.stream.find(':%s MODE' % self.nick) != -1: #means we're on the network
                 self.connected = True
-            #need to parse the stream here, into channels (PRIVMSG #channel)(does the server keep track of what channels it's in?), 
-            #PMs (PRIVMSG self.nick)(spawn a PM object?), server pings
+            #need to parse the stream here, into channels (PRIVMSG #channel)
+            #does the server keep track of what channels it's in? 
+            #No - if you receive a PRIVMSG just assume you're in that channel
+#PMs (PRIVMSG self.nick)(spawn a PM object?), server pings
 
 """class for irc channel - handles joining the channel, what the alert words are
       single irc socket, single channel, single alert word, action to take when alert is seen

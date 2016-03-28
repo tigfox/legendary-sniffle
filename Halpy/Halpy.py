@@ -37,39 +37,56 @@ print ("joined %s" % server)
 
 #connectToServer()
 while 1:
-   text=irc.recv(2048)
-   print text
+    text=irc.recv(2048)
+    print text
 
 #once you're on the network, join channel   
-   if text.find(':%s MODE' % nick) != -1:
-      irc.send("JOIN %s\n" % channel)
-      print ("tried to join %s" % channel)
+    if text.find(':%s MODE' % nick) != -1:
+        irc.send("JOIN %s\n" % channel)
+        print ("tried to join %s" % channel)
 
 #watch for pings - don't ping timeout
-   if text.find('PING') != -1:
-      irc.send('PONG %s\r\n' % text.split()[1])
-      print "pong"
+    if text.find('PING') != -1:
+        irc.send('PONG %s\r\n' % text.split()[1])
+        print "pong"
 
 #watch for halp
-   if text.find(alert) != -1:
-       t = text.split(alert)
-       to = t[1].strip()
-       u = text.split('!')
-       reporter = u[0].strip()[1:]
-       irc.send("PRIVMSG %s :OMG I'll find halp %s! \r\n" % (channel,reporter))
-       irc.send('PRIVMSG %s :Please enjoy this cat while I alert the humans: %s \r\n'%(channel,getCat()))
-       print "saw halp" #fire off some rockets or something
-       print "%s needs halp with %s in %s" % (reporter,str(to),channel)
+    if text.find(alert) != -1:
+        t = text.split(alert)
+        to = t[1].strip()
+        u = text.split('!')
+        reporter = u[0].strip()[1:]
+        irc.send("PRIVMSG %s :OMG I'll find halp %s! \r\n" % (channel,reporter))
+        irc.send('PRIVMSG %s :Please enjoy this cat while I alert the humans: %s \r\n'%(channel,getCat()))
+        print "saw halp" #fire off some rockets or something
+        print "%s needs halp with %s in %s" % (reporter,str(to),channel)
+
+#convert to danzigs
+    if text.find(":!danzig") != -1:
+        t = text.split(":!danzig")
+        to = t[1].strip() #this is now the found string without the nick
+        u = text.split('!') #this is the whole username
+        reporter = u[0].strip()[1:] #this is only the nick
+        if to.find("km") != -1:
+            string = to.split("km")
+            amount = float(string[0])
+            danzigs = (amount / .002)
+            print "%s kilometers is %s Danzigs." % (amount,danzigs)
+        if to.find("meters") != -1:
+            string = to.split("meters")
+            amount = float(string[0])
+            danzigs = (amount / 2)
+            print "%s meters is %s Danzigs." % (amount,danzigs)
 
 #refuse ops
-   if text.find('+o %s' % nick) != -1:
-      irc.send('MODE %s -o %s \r\n' % (channel,nick))
-      irc.send('PRIVMSG %s :It is probably stupid to op %s \r\n' % (channel,nick))
-      print "donut op me pls"
+    if text.find('+o %s' % nick) != -1:
+        irc.send('MODE %s -o %s \r\n' % (channel,nick))
+        irc.send('PRIVMSG %s :It is probably stupid to op %s \r\n' % (channel,nick))
+        print "donut op me pls"
 
 #allow !halp to be acknowledged
-   if text.find(':!ack') != -1:
-      u = text.split('!')
-      acker = u[0].strip()[1:]
-      irc.send('PRIVMSG %s :Thanks %s! \r\n' % (channel,acker))
-      print "%s ack'd that shit"% acker
+    if text.find(':!ack') != -1:
+        u = text.split('!')
+        acker = u[0].strip()[1:]
+        irc.send('PRIVMSG %s :Thanks %s! \r\n' % (channel,acker))
+        print "%s ack'd that shit"% acker

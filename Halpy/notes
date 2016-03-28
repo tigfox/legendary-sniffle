@@ -1,7 +1,8 @@
 
 How to match for nick/user
 
-:nick!username@host
+:nick!~username@host
 
-:%s!%s@%s % (userNick, userUsername, userHostname)
+:%s!~%s@%s % (userNick, userUsername, userHostname)
+
 

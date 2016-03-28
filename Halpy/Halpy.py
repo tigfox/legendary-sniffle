@@ -10,7 +10,7 @@ from xml.etree import ElementTree
 #constants
 server = "irc.freenode.org"
 channel = "#Synculus"
-nick = "Halpy"
+nick = "junkbot"
 alert = ":!halp"
 ack = ":!ack"
 catsource = "http://thecatapi.com/api/images/get?format=xml&api_key=NjgxMjU&size=full&results_per_page=1&type=gif"
@@ -41,7 +41,7 @@ while 1:
    print text
 
 #once you're on the network, join channel   
-   if text.find(':Halpy MODE') != -1:
+   if text.find(':%s MODE' % nick) != -1:
       irc.send("JOIN %s\n" % channel)
       print ("tried to join %s" % channel)
 

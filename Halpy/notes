@@ -1,8 +1,7 @@
 
+How to match for nick/user
 
-How to match for nick / user? :_AJ!~aj_aceved@pool-100-37-226-239.nycmny.fios.verizon.net PRIVMSG #Synculus
-
-:nick!realname@host
+:nick!username@host
 
 :%s!%s@%s % (userNick, userUsername, userHostname)
 

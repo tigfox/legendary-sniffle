@@ -72,23 +72,27 @@ while 1:
             try:
                 amount = float(string[0])
                 danzigs = (amount / 2)
-                print "%s, %s meters is %s Danzigs." % (reporter,amount,danzigs)
+                irc.send("PRIVMSG %s :%s, %r meters is %r Danzigs.\r\n" % (channel,reporter,amount,danzigs))
+                print "%s meters is %s Danzigs." % (amount,danzigs)
             except ValueError:
                 string = to.split("kilometers")
                 amount = float(string[0])
                 danzigs = (amount / .002)
-                print "%s, %s kilometers is %s Danzigs." % (reporter,amount,danzigs)
+                irc.send("PRIVMSG %s :%s, %s kilometers is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
+                print "%s kilometers is %s Danzigs." % (str(amount),str(danzigs))
         if to.find("grams") != -1:
             string = to.split("grams")
             try:
                 amount = float(string[0])
-                danzigs = (amount / 100000)
-                print "%s, %s grams is %s Danzigs." % (reporter,amount,danzigs)
+                danzigs = (amount / 84000)
+                irc.send("PRIVMSG %s :%s, %s grams is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
+                print "%s grams is %s Danzigs." % (amount,danzigs)
             except ValueError:
                 string = to.split("kilograms")
                 amount = float(string[0])
-                danzigs = amount / 100)
-                print "%s, %s kilograms is %s Danzigs." % (reporter,amount,danzigs)
+                danzigs = (amount / 84)
+                irc.send("PRIVMSG %s :%s, %s kilograms is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
+                print "%s kilograms is %s Danzigs." % (amount,danzigs)
 
 #refuse ops
     if text.find('+o %s' % nick) != -1:

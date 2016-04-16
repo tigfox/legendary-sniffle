@@ -78,10 +78,14 @@ while 1:
                 print "%s meters is %s Danzigs." % (amount,danzigs)
             except ValueError:
                 string = to.split("kilometers")
-                amount = float(string[0])
-                danzigs = (amount / .002)
-                irc.send("PRIVMSG %s :%s, %s kilometers is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
-                print "%s kilometers is %s Danzigs." % (str(amount),str(danzigs))
+                try:
+                    amount = float(string[0])
+                    danzigs = (amount / .002)
+                    irc.send("PRIVMSG %s :%s, %s kilometers is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
+                    print "%s kilometers is %s Danzigs." % (str(amount),str(danzigs))
+                except ValueError:
+                    irc.send("PRIVMSG %s :%s, what we have here is a failure to communicate.\r\n" % (channel,reporter))
+                    irc.send("PRIVMSG %s :I don't know what %s is." % (channel,string[0])
         if to.find("grams") != -1:
             string = to.split("grams")
             try:
@@ -91,10 +95,14 @@ while 1:
                 print "%s grams is %s Danzigs." % (amount,danzigs)
             except ValueError:
                 string = to.split("kilograms")
-                amount = float(string[0])
-                danzigs = (amount / 84)
-                irc.send("PRIVMSG %s :%s, %s kilograms is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
-                print "%s kilograms is %s Danzigs." % (amount,danzigs)
+                try:
+                    amount = float(string[0])
+                    danzigs = (amount / 84)
+                    irc.send("PRIVMSG %s :%s, %s kilograms is %s Danzigs.\r\n" % (channel,reporter,str(amount),str(danzigs)))
+                    print "%s kilograms is %s Danzigs." % (amount,danzigs)
+                except ValueError:
+                    irc.send("PRIVMSG %s :%s, what we have here is a failure to communicate.\r\n" % (channel,reporter))
+                    irc.send("PRIVMSG %s :I don't know what %s is." % (channel,string[0])
 
 #refuse ops
     if text.find('+o %s' % nick) != -1:

@@ -9,6 +9,7 @@ from xml.etree import ElementTree
 import config
 
 #constants
+#You should have a file "config.py" with definitions for each of these in the same directory
 server = config.server
 channel = config.channel
 nick = config.nick

@@ -6,13 +6,14 @@ import sys
 import time
 import requests
 from xml.etree import ElementTree
+import config
 
 #constants
-server = "irc.freenode.org"
-channel = "#Synculus"
-nick = "junkbot"
-alert = ":!halp"
-ack = ":!ack"
+server = config.server
+channel = config.channel
+nick = config.nick
+alert = config.alert
+ack = config.ack
 catsource = "http://thecatapi.com/api/images/get?format=xml&api_key=NjgxMjU&size=full&results_per_page=1&type=gif"
 
 def getCat():

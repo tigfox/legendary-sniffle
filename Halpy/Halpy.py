@@ -63,6 +63,13 @@ while 1:
         print "saw halp" #fire off some rockets or something
         print "%s needs halp with %s in %s" % (reporter,str(to),channel)
 
+    if text.find(":!yomama") != -1:
+        t = text.split(":!yomama")
+        to = t[1].strip() #this is now the found string without the nick
+        u = text.split('!') #this is the whole username
+        reporter = u[0].strip()[1:] #just the tip
+        irc.send("PRIVMSG %s :%s https://www.youtube.com/watch?v=ImhN6-9KLTY\r\n" % (channel,reporter))
+
 #convert to danzigs
     if text.find(":!danzig") != -1:
         t = text.split(":!danzig")

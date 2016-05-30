@@ -15,7 +15,7 @@ channel = config.channel
 nick = config.nick
 alert = config.alert
 ack = config.ack
-catsource = "http://thecatapi.com/api/images/get?format=xml&api_key=NjgxMjU&size=full&results_per_page=1&type=gif"
+catsource = config.catsource
 
 def getCat():
    response = requests.get(catsource)

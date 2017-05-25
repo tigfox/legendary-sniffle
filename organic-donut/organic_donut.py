@@ -1,17 +1,48 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>500 Internal Server Error</title>
-</head><body>
-<h1>Internal Server Error</h1>
-<p>The server encountered an internal error or
-misconfiguration and was unable to complete
-your request.</p>
-<p>Please contact the server administrator,
- webmaster@weaponized.org and inform them of the time the error occurred,
-and anything you might have done that may have
-caused the error.</p>
-<p>More information about this error may be available
-in the server error log.</p>
-<p>Additionally, a 500 Internal Server Error
-error was encountered while trying to use an ErrorDocument to handle the request.</p>
-</body></html>
+#!/usr/bin/env python
+
+import random
+import sys
+
+class character:
+	def __init__(self, HP, AC, name):
+		self.HP = HP
+		self.AC = AC
+		self.name = name
+	
+def attack(attacker, defender):
+	'''Takes two objects, makes them fight. Returns victor'''
+	#decide whether we want to fight (choose run/fight)
+	fight = raw_input("You wanna fight? [Y/N]")
+
+	if fight == "Y":
+		#roll for AC
+		ac_Roll = random.randint(1,10)
+		if ac_Roll>defender.AC:
+			#roll for damage
+			damage_Roll = random.randint(1,50)
+			print attacker.name + " hit " + defender.name + " for " + str(damage_Roll) + " points."
+			#deduct damage from HP
+			defender.HP = defender.HP - damage_Roll
+			
+			if defender.HP <= 0: #defender loses
+				print defender.name + " loses."
+				sys.exit()
+			
+			if defender.HP > 0: #defender doesn't lose
+				return attacker, defender
+		
+		else:
+			print "You missed, sucka."
+			return attacker, defender
+	
+	if fight == "N":
+		#run away
+		print "You run away like a bitch."
+		
+	else:
+		print "I didn't understand that input. Choose Y or N."
+	
+michael = character(10, 4, "michael")
+ognut = character(10, 2, "ognut")
+	
+attack(michael, ognut)

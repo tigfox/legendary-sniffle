@@ -51,7 +51,7 @@ def fight(player, not_player):
             attack(player, not_player)
         if "run" in action.lower():
             run_away(player, not_player)
-    print ("You Died.") 
+    print ("\033[1;31;40mYou Died.\n") 
 
 
 #create your characters

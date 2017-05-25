@@ -5,8 +5,7 @@ import sys
 import requests
 import time
 from xml.etree import ElementTree
-
-catsource = "http://thecatapi.com/api/images/get?format=xml&api_key=NjgxMjU&size=full&results_per_page=1&type=gif"
+import config
 
 """class for irc server connection - this handles joining the server, responding to pings
       needs to have a single nick, single irc server
@@ -78,7 +77,7 @@ class alert:
 """I mean, who doesn't need cats?
 """
 def getCat():
-   response = requests.get(catsource)
+   response = requests.get(config.catsource)
    tree = ElementTree.fromstring(response.content)
    cat = tree.findtext("./data/images/image/url")
    link = tree.findtext('.data/images/image/source_url')
@@ -86,5 +85,5 @@ def getCat():
 
 if __name__ == '__main__':
 
-    server1 = ircServer("irc.freenode.org", "6667", "Halpy-OO")
-    chan1 = channel(server1, "#SquirrelOps", "!halp")
+    server1 = ircServer(config.server, "6667", config.nick)
+    chan1 = channel(config.channel, config.channel, config.alert)

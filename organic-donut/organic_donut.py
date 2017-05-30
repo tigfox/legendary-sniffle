@@ -7,15 +7,27 @@ class character:
     def __init__(self, HP, AC, name):
         self.HP = HP
         self.AC = AC
-        self.name = name
-	
+        self.name = name	
+
+class inv_item:
+    def __init__(self, size=1):
+        self.size = size
+
+#keep inventory as a list, and check len(inventory) to make sure we're not over?
+#each item in the list is an object (an instance of a class)
+
+class sword(inv_item):
+    def __init__(self, name, add_hp):
+        inv_item.__init__(self, 2)
+        
+
 def attack(attacker, defender):
     '''Takes two objects, makes them fight. Returns victor'''
     #roll for AC
     ac_Roll = random.randint(1,10)
     if ac_Roll>defender.AC:
         #roll for damage
-        damage_Roll = random.randint(1,10)
+        damage_Roll = random.randint(1,5)
         print attacker.name + " hit " + defender.name + " for " + str(damage_Roll) + " points."
         #deduct damage from HP
         defender.HP = defender.HP - damage_Roll
@@ -28,7 +40,7 @@ def attack(attacker, defender):
             return attacker, defender
 
     else:
-        print "You missed, sucka."
+        print attacker.name + " missed their attack."
         return attacker, defender
 
 def run_away(runner, striker):
@@ -49,14 +61,15 @@ def fight(player, not_player):
         #can they be attacked without warning?
         if "fight" in action.lower():
             attack(player, not_player)
+            attack(not_player, player)
         if "run" in action.lower():
             run_away(player, not_player)
     print ("\033[1;31;40mYou Died.\n") 
 
 
 #create your characters
-michael = character(10, 4, "michael")
-ognut = character(10, 2, "ognut")
+michael = character(10, 4, "Michael")
+ognut = character(10, 4, "Ognut")
 	
 fight(michael, ognut)
 

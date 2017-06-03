@@ -79,5 +79,8 @@ fight(michael, ognut)
 #right now we're stuck in an endless fight/run loop until someone dies.
 #That's an allegory or something, but I guess we need some concept of location(?)
 #so that you can run _away_.
+#Thoughts on location:
+#each room object has four directions (NSEW), and directions with doorways/other rooms have those rooms listed.
+#Directions that are blocked should list what is blocking them (wall, locked door, etc)
 ###
 #we also need the computer to fight back - turns.

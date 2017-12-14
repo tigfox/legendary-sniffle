@@ -1,0 +1,12 @@
+###config files
+*config.py
+*config.pyc
+
+###emacs auto-saves
+*~
+
+###vi swap files
+~.swp
+
+###working data files
+*.csv

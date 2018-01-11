@@ -19,14 +19,13 @@ def get_cur_price(currency):
     full_data = r.json()
     last_refresh = full_data["Meta Data"]["7. Last Refreshed"]
     cur_price = full_data['Time Series (Digital Currency Intraday)'][last_refresh]['1a. price (USD)']
-    # print(cur_price)
     return "{:.2f}".format(float(cur_price))
 
 
 def get_cur_last_daily_close(currency):
     r = requests.get("https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_DAILY&symbol=" + currency + "&market=USD&apikey=" + config.av_key)
     full_data = r.json()
-    last_refresh = str(full_data["Meta Data"]["6. Last Refreshed"].split(" ")[0])
+    last_refresh = str(full_data["Meta Data"]["7. Last Refreshed"].split(" ")[0])
     last_close = full_data['Time Series (Digital Currency Daily)'][last_refresh]['4a. close (USD)']
     return "{:.2f}".format(float(last_close))
 
@@ -36,7 +35,6 @@ def get_sec_price(symbol):
     full_data = r.json()
     last_refresh = full_data["Meta Data"]["3. Last Refreshed"]
     cur_price = full_data['Time Series (1min)'][last_refresh]['4. close']
-    # print(cur_price)
     return "{:.2f}".format(float(cur_price))
 
 
@@ -45,6 +43,7 @@ def get_sec_last_daily_close(symbol):
     full_data = r.json()
     last_refresh = str(full_data["Meta Data"]["3. Last Refreshed"].split(" ")[0])
     last_close = full_data['Time Series (Daily)'][last_refresh]['4. close']
+    print(last_close)
     return "{:.2f}".format(float(last_close))
 
 
@@ -72,7 +71,6 @@ def write_console(things):
         print(i['name'] + ": " + str(i['price']) + " " + i['daily_trend'])
 
 if __name__ == "__main__":
-    # datas = {"ETSY": get_stock("ETSY"), "BTC": get_cur("BTC"), "AAPL": get_stock("AAPL")}
     for i in things:
         if i['type'] == 'security':
             i['price'] = get_sec_price(i['name'])
@@ -83,7 +81,6 @@ if __name__ == "__main__":
             i['price'] = get_cur_price(i['name'])
             i['last_daily_price'] = get_cur_last_daily_close(i['name'])
             i = eval_trends(i)
-        # print(i)
     if display:
         write_display(things)
     else:

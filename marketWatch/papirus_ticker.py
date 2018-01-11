@@ -63,6 +63,7 @@ def write_display(things):
     pos = 10
     for i in things:
         text.AddText(i['name'] + ": " + str(i['price']) + " " + i['daily_trend'], 10, pos)
+        pos = pos + 25
     text.WriteAll()
 
 

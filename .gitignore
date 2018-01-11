@@ -10,3 +10,6 @@
 
 ###working data files
 *.csv
+
+###we don't need no sticking caches
+__pycache__

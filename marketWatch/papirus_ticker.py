@@ -43,7 +43,6 @@ def get_sec_last_daily_close(symbol):
     full_data = r.json()
     last_refresh = str(full_data["Meta Data"]["3. Last Refreshed"].split(" ")[0])
     last_close = full_data['Time Series (Daily)'][last_refresh]['4. close']
-    print(last_close)
     return "{:.2f}".format(float(last_close))
 
 

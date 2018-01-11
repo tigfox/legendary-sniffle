@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
         if i['type'] == 'currency':
             i['price'] = get_cur_price(i['name'])
-            i['last_daily_price'] = get_cur_last_daily_close(i['name'])
+            i['last_daily_price'] = i['price'] # get_cur_last_daily_close(i['name'])
             i = eval_trends(i)
     if display:
         write_display(things)

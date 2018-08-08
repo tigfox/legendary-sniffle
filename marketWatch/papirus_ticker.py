@@ -61,26 +61,28 @@ def write_display(things):
     text = PapirusTextPos(False)
     pos = 10
     for i in things:
-        text.AddText(i['name'] + ": " + str(i['price']) + " " + i['daily_trend'], 10, pos)
+        text.AddText(i['name'] + ": " + str(i['price']), 10, pos)
+#        text.AddText(i['name'] + ": " + str(i['price']) + " " + i['daily_trend'], 10, pos)
         pos = pos + 25
     text.WriteAll()
 
 
 def write_console(things):
     for i in things:
-        print(i['name'] + ": " + str(i['price']) + " " + i['daily_trend'])
+        print(i['name'] + ": " + str(i['price']))
+#        print(i['name'] + ": " + str(i['price']) + " " + i['daily_trend'])
 
 if __name__ == "__main__":
     for i in things:
         if i['type'] == 'security':
             i['price'] = get_sec_price(i['name'])
-            i['last_daily_price'] = get_sec_last_daily_close(i['name'])
-            i = eval_trends(i)
+#            i['last_daily_price'] = get_sec_last_daily_close(i['name'])
+#            i = eval_trends(i)
 
         if i['type'] == 'currency':
             i['price'] = get_cur_price(i['name'])
-            i['last_daily_price'] = i['price'] # get_cur_last_daily_close(i['name'])
-            i = eval_trends(i)
+#            i['last_daily_price'] = i['price'] # get_cur_last_daily_close(i['name'])
+#            i = eval_trends(i)
     if display:
         write_display(things)
     else:

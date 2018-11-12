@@ -9,7 +9,8 @@ except ImportError:
     display = False
 
 thing1 = {'name': 'ETSY', 'type': 'security', 'price': 0, 'last_daily_price': 0, 'daily_trend': 'U'}
-thing2 = {'name': 'BTC', 'type': 'currency', 'price': 0, 'last_daily_price': 0, 'daily_trend': 'U'}
+#thing2 = {'name': 'BTC', 'type': 'currency', 'price': 0, 'last_daily_price': 0, 'daily_trend': 'U'}
+thing2 = {'name': 'BBVA', 'type': 'security', 'price': 0, 'last_daily_price': 0, 'daily_trend': 'U'}
 thing3 = {'name': 'AAPL', 'type': 'security', 'price': 0, 'last_daily_price': 0, 'daily_trend': 'U'}
 things = [thing1, thing2, thing3]
 

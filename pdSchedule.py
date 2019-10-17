@@ -3,21 +3,27 @@
 import requests
 import keyring
 import datetime
+import getpass
 
-#get some secrets
-pd_api_key = keyring.get_password("ItemName", "AccountName")
-slack_api_key = keyring.get_password("ItemName", "AccountName")
+# get some secrets - you should have items in your login keychain
+# that match the names here. The pd api key needs to start with "Token token=".
+# The Slack token needs to start with "Bearer xoxp-"
+pd_api_key = keyring.get_password("pd_api_key", getpass.getuser())
+slack_api_key = keyring.get_password("slack_api_key", getpass.getuser())
 
-#set some constants
-schedule = "XXXXXXX" #the schedule to check in PD
-help_group = "XXXXXXXXX" #the slack group to add users to
+# set some constants
+schedule = "PBVU1PI" # the schedule to check in PD
+help_group = "SPFRQHDS8" # the slack group to add users to
 today = datetime.date.today()
 tomorrow = today + datetime.timedelta(days=1)
 
-#get all the PD users on the final schedule
+# get all the PD users on the final schedule
 # get the big schedule from PD
+print(">>Getting the schedule from Pagerduty")
 r = requests.get("https://api.pagerduty.com/schedules/" + schedule + "?time_zone=UTC&since=" + today.strftime("%Y-%m-%d") + "&until=" + tomorrow.strftime("%Y-%m-%d"), headers={"Authorization": pd_api_key})
+
 # we only want the final schedule
+# print(r.text)
 pd_schedule = r.json()['schedule']['final_schedule']['rendered_schedule_entries']
 # there might be multiple users?
 user_group = []
@@ -27,6 +33,7 @@ for i in pd_schedule:
 
 # de-duplicate the list of user IDs
 user_group = list(set(user_group))
+print(">>Turning UserIDs into email addresses")
 
 # get email addresses from user IDs
 emails = []
@@ -38,7 +45,12 @@ for user_id in user_group:
 # let's de-dupe that too
 emails = list(set(emails))
 
-#now we gotta get the Slack user ID from the email
+# let's get a sanity check from a human
+print("About to set the group membership to " + ', '.join(emails))
+print("Enter to continue, ctrl-c to abort.")
+input()
+
+# now we gotta get the Slack user ID from the email
 
 # make some lists for slack users
 found_users = set()
@@ -55,8 +67,13 @@ for i in r.json()['members']:
 # userIDs list now contains all the slack IDs of the people who should be in the group today
 # we need to turn this into a comma-separated string to feed to slack
 all_users = ', '.join(userIDs)
-print(all_users)
+# print(all_users)
 
 # let's update that usergroup!
 r = requests.post("https://slack.com/api/usergroups.users.update?usergroup=" + help_group + "&users=" + all_users, headers={'Authorization': slack_api_key})
 print(r.text)
+
+
+
+
+

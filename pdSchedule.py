@@ -5,12 +5,12 @@ import keyring
 import datetime
 
 #get some secrets
-pd_api_key = keyring.get_password("Pagerduty", "efranson")
-slack_api_key = keyring.get_password("TIA-slack", "efranson")
+pd_api_key = keyring.get_password("ItemName", "AccountName")
+slack_api_key = keyring.get_password("ItemName", "AccountName")
 
 #set some constants
-schedule = "PBVU1PI" #the schedule to check in PD
-help_group = "SPFRQHDS8" #the slack group to add users to
+schedule = "XXXXXXX" #the schedule to check in PD
+help_group = "XXXXXXXXX" #the slack group to add users to
 today = datetime.date.today()
 tomorrow = today + datetime.timedelta(days=1)
 

@@ -60,5 +60,5 @@ if __name__ == "__main__":
     dailies = get_time_series(symbol)
     co_base_total = compute_closeopen(dailies, num_days)
     oc_base_total = compute_openclose(dailies, num_days)
-    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery close and sold them every open\nfor the last {num_days} days you would have made ${co_base_total * num_shares}")
-    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery open and held them to close\nfor the last {num_days} days you would have made ${oc_base_total * num_shares}")
+    print(f"\n{num_shares} shares of {symbol} close to open\nfor the last {num_days} market days:\n${co_base_total * num_shares}")
+    print(f"\n{num_shares} shares of {symbol} open to close\nfor the last {num_days} market days:\n${oc_base_total * num_shares}")

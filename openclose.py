@@ -10,7 +10,10 @@ def get_time_series(symbol):
     data = r.json()
     dailies = data['Time Series (Daily)']
     running_total = 0.0
-#    print(dailies)
+    return dailies
+
+def compute_closeopen(dailies):
+    running_total = 0.0
     for date in dailies:
         # get this date
         dict_list = list(dailies)
@@ -32,6 +35,13 @@ def get_time_series(symbol):
             continue
     return running_total
 
+def compute_openclose(dailies):
+    running_total = 0.0
+    for date in dailies:
+        today_profit = float(dailies[date]['4. close']) - float(dailies[date]['1. open'])
+        running_total = running_total + today_profit
+    return running_total
+
 def get_some_input():
     print("This program will check for profit\nassuming you purchased shares \nat close and sold them at open \nevery working day for the last 100.\n")
     symbol = input("What symbol do you want to check?\n")
@@ -42,6 +52,8 @@ def get_some_input():
 
 if __name__ == "__main__":
     symbol, num_shares = get_some_input()
-    base_total = get_time_series(symbol)
-    share_total = num_shares * base_total
-    print(f"If you purchased {num_shares} shares of {symbol}\nevery business day at close for the last\n100 days you would have made ${share_total}")
+    dailies = get_time_series(symbol)
+    co_base_total = compute_closeopen(dailies)
+    oc_base_total = compute_openclose(dailies)
+    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery close and sold them every open\nfor the last 100 days you would have made ${co_base_total * num_shares}")
+    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery open and held them to close\nfor the last 100 days you would have made ${oc_base_total * num_shares}")

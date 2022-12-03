@@ -12,48 +12,53 @@ def get_time_series(symbol):
     running_total = 0.0
     return dailies
 
-def compute_closeopen(dailies):
+def compute_closeopen(dailies, num_days):
     running_total = 0.0
+    days_counter = 0
     for date in dailies:
-        # get this date
-        dict_list = list(dailies)
-        # get yesterday's close
-        try:
-            yesterday = dict_list[dict_list.index(date) +1]
-#            print(date + ": " + yesterday)
-            y_close = dailies[yesterday]['4. close']
-#            print(y_close)
-            t_open = dailies[date]['1. open']
-            overnight_change = float(t_open) - float(y_close)
-#            print(overnight_change)
-            running_total = running_total + float(overnight_change)
-        except (KeyError, ValueError) as e:
-            print(e)
-        except IndexError as e:
-            # this means we got the last one (there are no more dates)
-#            print(f"There are no more dates. {e}")
-            continue
+        while days_counter <= num_days:
+            dict_list = list(dailies)
+            # get yesterday's close
+            try:
+                yesterday = dict_list[dict_list.index(date) +1]
+    #            print(date + ": " + yesterday)
+                y_close = dailies[yesterday]['4. close']
+    #            print(y_close)
+                t_open = dailies[date]['1. open']
+                overnight_change = float(t_open) - float(y_close)
+    #            print(overnight_change)
+                running_total = running_total + float(overnight_change)
+            except (KeyError, ValueError) as e:
+                print(e)
+            except IndexError as e:
+                # this means we got the last one (there are no more dates)
+                continue
+            days_counter +=1
     return running_total
 
-def compute_openclose(dailies):
+def compute_openclose(dailies, num_days):
+    days_counter = 0
     running_total = 0.0
     for date in dailies:
-        today_profit = float(dailies[date]['4. close']) - float(dailies[date]['1. open'])
-        running_total = running_total + today_profit
+        while days_counter <= num_days:
+            today_profit = float(dailies[date]['4. close']) - float(dailies[date]['1. open'])
+            running_total = running_total + today_profit
+            days_counter +=1
     return running_total
 
 def get_some_input():
     print("This program will check for profit\nassuming you purchased shares \nat close and sold them at open \nevery working day for the last 100.\n")
     symbol = input("What symbol do you want to check?\n")
     num_shares = input("And how many shares will you hold?\n")
+    num_days = int(input("For many days back?\n"))
     # do some input sanitizing
-    return symbol, float(num_shares)
+    return symbol, float(num_shares), num_days
     
 
 if __name__ == "__main__":
-    symbol, num_shares = get_some_input()
+    symbol, num_shares, num_days = get_some_input()
     dailies = get_time_series(symbol)
-    co_base_total = compute_closeopen(dailies)
-    oc_base_total = compute_openclose(dailies)
-    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery close and sold them every open\nfor the last 100 days you would have made ${co_base_total * num_shares}")
-    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery open and held them to close\nfor the last 100 days you would have made ${oc_base_total * num_shares}")
+    co_base_total = compute_closeopen(dailies, num_days)
+    oc_base_total = compute_openclose(dailies, num_days)
+    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery close and sold them every open\nfor the last {num_days} days you would have made ${co_base_total * num_shares}")
+    print(f"\nIf you purchased {num_shares} shares of {symbol}\nevery open and held them to close\nfor the last {num_days} days you would have made ${oc_base_total * num_shares}")
